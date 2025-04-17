@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Oman Car Search</title>
+</head>
+<body>
+  <h1>Oman Car Listings</h1>
+  <ul id="results">Loading…</ul>
+  <script>
+    fetch("listings.json")
+      .then(r=>r.json())
+      .then(data=>{
+        const ul = document.getElementById("results");
+        ul.innerHTML = data.map(item=>
+          `<li>
+             <strong>${item.title}</strong> —
+             ${item.price} —
+             <a href="${item.url}" target="_blank">${item.source.replace(/^https?:\\/\\//, "")}</a>
+           </li>`
+        ).join("");
+      });
+  </script>
+</body>
+</html>
