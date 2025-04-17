@@ -1,0 +1,31 @@
+name: Daily Scrape
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # every day at 2 AM Oman time
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run scraper
+        run: python scrape.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add listings.json
+          git commit -m "Daily update $(date +'%F')" || echo "No changes"
+          git push
