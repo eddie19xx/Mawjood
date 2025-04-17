@@ -1,8 +1,9 @@
 name: Daily Scrape
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 2 * * *'   # every day at 2 AM Oman time
+
 
 jobs:
   build:
